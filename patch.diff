@@ -1,0 +1,41 @@
+From 9818958fa222ed7ab27165256ef432385831930a Mon Sep 17 00:00:00 2001
+From: Dennis Joele <dennis.joele@triopsys.nl>
+Date: Wed, 27 Apr 2016 08:42:21 +0200
+Subject: [PATCH] saveMD5 weer toegevoegd.
+
+---
+ libraries/ESP8266httpUpdate/src/ESP8266httpUpdate.cpp | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/libraries/ESP8266httpUpdate/src/ESP8266httpUpdate.cpp b/libraries/ESP8266httpUpdate/src/ESP8266httpUpdate.cpp
+index 15f0879..9f7fb62 100644
+--- a/libraries/ESP8266httpUpdate/src/ESP8266httpUpdate.cpp
++++ b/libraries/ESP8266httpUpdate/src/ESP8266httpUpdate.cpp
+@@ -25,10 +25,24 @@
+ 
+ #include "ESP8266httpUpdate.h"
+ #include <StreamString.h>
++//ADDED DJO
++#
++#include <FS.h>
++
++//ADDED DJO
+ 
+ extern "C" uint32_t _SPIFFS_start;
+ extern "C" uint32_t _SPIFFS_end;
+ 
++void saveMD5(String s) {
++  File md5 = SPIFFS.open("/md5.txt", "w");
++  if (!md5) {
++    Serial.println("Failed to open config file for writing");
++  }
++  md5.println(s.c_str());
++  md5.close();
++}
++
+ ESP8266HTTPUpdate::ESP8266HTTPUpdate(void)
+ {
+ }
+-- 
+2.7.4.windows.1
+
